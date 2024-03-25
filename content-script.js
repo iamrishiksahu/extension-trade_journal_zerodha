@@ -25,6 +25,14 @@ const observer = new MutationObserver((mutations, observer) => {
 
                         const qtyInput = document.querySelector(".order-window input[label='Qty.'")
                         const instrumentName = document.querySelector(".order-window span.tradingsymbol span.name").getInnerHTML()
+
+                        const buyOrSell = document.querySelector('.order-window .submit').textContent;
+                        const exchangeAndLTP = document.querySelector('.order-window .exchange.checked').textContent
+
+                        const orderType =  document.querySelector('.order-window .variety .checked').textContent
+
+                        const limitPrice = document.querySelector(".order-window input[label='Price'").value
+
                         const headerArea = document.querySelector('.order-window .exchange-selector')
                         const newEl = document.createElement('div')
                         newEl.innerHTML = '<div><div style="display: flex; gap: 8px; trnsition: all 200ms ease;"><input type="checkbox" id="tjr-ow-addtotjr-chckbx" checked=true></input><p>Add to Trade Journal</p></div> <input id="tjr-ow-commentbox" style="background-color: #edf3ff;border: none;border-radius: 2px;height: 48px;width: 100%;color: #444;" multiline rows="3" multiline placeholder="type comment..." ></input></div>'
@@ -32,6 +40,8 @@ const observer = new MutationObserver((mutations, observer) => {
 
                         headerArea.appendChild(newEl)
                         const commentBox = document.querySelector('#tjr-ow-commentbox')
+
+                        
 
                         document.querySelector('#tjr-ow-addtotjr-chckbx').addEventListener('change', (e) => {
                             if(e.target.checked){
