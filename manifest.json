@@ -1,6 +1,22 @@
 {
     "name": "Trade Journal for Zerodha",
-    "description": "A Hassle-free trade journal to record your trades just on a click of a button.",
+    "description": "A hassle-free trade journaling chrome extension to record your trades just on a click of a button.",
+    "action": {
+        "default_popup": "index.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://kite.zerodha.com/*"
+            ],
+            "css": [
+                "content-styles.css"
+            ],
+            "js": [
+                "content-script.js"
+            ]
+        }
+    ],
     "version": "1.0",
     "manifest_version": 3
 }
