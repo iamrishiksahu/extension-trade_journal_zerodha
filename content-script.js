@@ -1,10 +1,4 @@
-console.log('tested')
-
 const appNode = document.getElementById('app')
-
-// const createOrderWindowWidget = () => {
-//     const parentNode = document.
-// }
 
 const pushTradeEntry = (payload) => {
     alert(`entry pushed! ${JSON.stringify(payload)}`)
@@ -31,7 +25,6 @@ const observer = new MutationObserver((mutations, observer) => {
                         const instrumentName = document.querySelector(".order-window span.tradingsymbol span.name").getInnerHTML()
                         const buySellSwitch = document.querySelector(".order-window input[stateoff='BUY']")
 
-                        const limitPrice = document.querySelector(".order-window input[label='Price']")
 
                         const headerArea = document.querySelector('.order-window .exchange-selector')
                         const newEl = document.createElement('div')
@@ -66,17 +59,18 @@ const observer = new MutationObserver((mutations, observer) => {
 
                             const exchangeAndLTP = document.querySelector(".order-window .exchange.checked")
                             const orderType = document.querySelector(".order-window .variety .checked")?.textContent
+                            const limitPrice = document.querySelector(".order-window input[label='Price']")
 
                             const payload = {
                                 instrumentName: instrumentName,
                                 qty: qtyInput.value,
-                                buyOrSell: orderFrom.classList.contains('sell')? 'SELL' : 'BUY',
+                                buyOrSell: orderFrom.classList.contains('sell') ? 'SELL' : 'BUY',
                                 time: new Date(),
                                 comment: commentBox.value,
                                 orderType: orderType,
                                 exchange: exchangeAndLTP.textContent.substring(1, 4),
-                                price: limitPrice.value == 0 ? exchangeAndLTP.textContent.substring(6) : limitPrice.value,
-                                ltp: exchangeAndLTP.textContent.substring(6)
+                                price: limitPrice?.value == 0 || limitPrice == null ? exchangeAndLTP.textContent.substring(6) : limitPrice.value,
+                                ltp: exchangeAndLTP.textContent.substring(7)
                             }
                             pushTradeEntry(payload)
                         })
