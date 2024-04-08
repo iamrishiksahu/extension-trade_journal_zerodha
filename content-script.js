@@ -6,6 +6,10 @@ const appNode = document.getElementById('app')
 //     const parentNode = document.
 // }
 
+const pushTradeEntry = (payload) => {
+    alert(`entry pushed! ${JSON.stringify(payload)}`)
+}
+
 const observer = new MutationObserver((mutations, observer) => {
 
     for (var mutation of mutations) {
@@ -21,44 +25,63 @@ const observer = new MutationObserver((mutations, observer) => {
                     const formClasses = addedNode.classList.value.split(' ')
 
                     if (formClasses.includes('order-window') && formClasses.includes('layer-2')) {
-                        console.log('Found!', addedNode, addedNode.childNodes[4])
+                        const orderFrom = document.querySelector("form.order-window")
 
-                        const qtyInput = document.querySelector(".order-window input[label='Qty.'")
+                        const qtyInput = document.querySelector(".order-window input[label='Qty.']")
                         const instrumentName = document.querySelector(".order-window span.tradingsymbol span.name").getInnerHTML()
+                        const buySellSwitch = document.querySelector(".order-window input[stateoff='BUY']")
 
-                        const buyOrSell = document.querySelector('.order-window .submit').textContent;
-                        const exchangeAndLTP = document.querySelector('.order-window .exchange.checked').textContent
-
-                        const orderType =  document.querySelector('.order-window .variety .checked').textContent
-
-                        const limitPrice = document.querySelector(".order-window input[label='Price'").value
+                        const limitPrice = document.querySelector(".order-window input[label='Price']")
 
                         const headerArea = document.querySelector('.order-window .exchange-selector')
                         const newEl = document.createElement('div')
                         newEl.innerHTML = '<div><div style="display: flex; gap: 8px; trnsition: all 200ms ease;"><input type="checkbox" id="tjr-ow-addtotjr-chckbx" checked=true></input><p>Add to Trade Journal</p></div> <input id="tjr-ow-commentbox" style="background-color: #edf3ff;border: none;border-radius: 2px;height: 48px;width: 100%;color: #444;" multiline rows="3" multiline placeholder="type comment..." ></input></div>'
                         newEl.style = 'position: relative; z-index: 100;'
 
+
                         headerArea.appendChild(newEl)
+
                         const commentBox = document.querySelector('#tjr-ow-commentbox')
 
-                        
+                        let isActive = true;
 
                         document.querySelector('#tjr-ow-addtotjr-chckbx').addEventListener('change', (e) => {
-                            if(e.target.checked){
+                            if (e.target.checked) {
                                 commentBox.style.display = 'block'
-                            }else{
+                                isActive = true;
+                            } else {
                                 commentBox.style.display = 'none'
+                                isActive = false;
                             }
                         })
 
-                        // const el = addedNode.childNodes.indexOf('section')
 
                         qtyInput.addEventListener('change', (event) => {
-                            // This function will be called when the input value changes
                             console.log('Input value changed:', event.target.value);
                         });
-                        // console.log(qtyInput)
+
+                        orderFrom.addEventListener('submit', async (e) => {
+
+                            if (!isActive) return;
+
+                            const exchangeAndLTP = document.querySelector(".order-window .exchange.checked")
+                            const orderType = document.querySelector(".order-window .variety .checked")?.textContent
+
+                            const payload = {
+                                instrumentName: instrumentName,
+                                qty: qtyInput.value,
+                                buyOrSell: orderFrom.classList.contains('sell')? 'SELL' : 'BUY',
+                                time: new Date(),
+                                comment: commentBox.value,
+                                orderType: orderType,
+                                exchange: exchangeAndLTP.textContent.substring(1, 4),
+                                price: limitPrice.value == 0 ? exchangeAndLTP.textContent.substring(6) : limitPrice.value,
+                                ltp: exchangeAndLTP.textContent.substring(6)
+                            }
+                            pushTradeEntry(payload)
+                        })
                     }
+
                 }
                 // }
             }
