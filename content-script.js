@@ -28,7 +28,7 @@ const observer = new MutationObserver((mutations, observer) => {
 
                         const headerArea = document.querySelector('.order-window .exchange-selector')
                         const newEl = document.createElement('div')
-                        newEl.innerHTML = '<div><div style="display: flex; gap: 8px; trnsition: all 200ms ease;"><input type="checkbox" id="tjr-ow-addtotjr-chckbx" checked=true></input><p>Add to Trade Journal</p></div> <input id="tjr-ow-commentbox" style="background-color: #edf3ff;border: none;border-radius: 2px;height: 48px;width: 100%;color: #444;" multiline rows="3" multiline placeholder="type comment..." ></input></div>'
+                        newEl.innerHTML = '<div><div style="display: flex; gap: 8px; trnsition: all 200ms ease;"><input type="checkbox" id="tjr-ow-addtotjr-chckbx" checked=true></input><p>Add to Trade Journal</p></div> <input id="tjr-ow-commentbox" style="background-color: #edf3ff;border: none;border-radius: 2px;height: 48px;width: 100%; box-sizing: border-box; padding: 0 1rem;color: #444;" multiline rows="3" multiline placeholder="Enter comment..." ></input></div>'
                         newEl.style = 'position: relative; z-index: 100;'
 
 
